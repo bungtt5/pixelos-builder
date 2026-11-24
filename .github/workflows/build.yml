@@ -8,15 +8,16 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 360
 
-    steps:
       - name: Free Disk Space & Setup Swap
         run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
           sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/lib/android
           sudo apt-get clean
-          sudo fallocate -l 16G /swapfile
-          sudo chmod 600 /swapfile
-          sudo mkswap /swapfile
-          sudo swapon /swapfile
+          sudo fallocate -l 16G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
           df -h
 
       - name: Install Build Tools
